@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { supabaseCRM } from '../../lib/supabase-crm';
 
+import { Icon } from '../../components/Icon';
 const AdminOrderDetailPage = () => {
     const { id } = useParams();
     const [order, setOrder] = useState<any>(null);
@@ -223,7 +224,7 @@ const AdminOrderDetailPage = () => {
                                                 {item.addons.map((addon: any, idx: number) => (
                                                     <div key={idx} className="text-slate-500 flex flex-col">
                                                         <span className="flex items-center gap-1">
-                                                            <span className="material-symbols-outlined text-[10px]">{addon.type === 'banda' ? 'workspace_premium' : 'star'}</span>
+                                                            <Icon name={addon.type === 'banda' ? 'workspace_premium' : 'star'} size={10} />
                                                             {addon.name} (+${addon.price})
                                                         </span>
                                                         {addon.customText && (

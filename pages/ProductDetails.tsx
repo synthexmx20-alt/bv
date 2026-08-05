@@ -8,6 +8,7 @@ import ProductCard from '../components/ProductCard';
 import { CheckoutContext } from '../context/CheckoutContext';
 import SEO from '../components/SEO';
 
+import { Icon } from '../components/Icon';
 const ProductDetailsPage = () => {
     const navigate = useNavigate();
     const { addToCart } = React.useContext(CheckoutContext);
@@ -243,7 +244,7 @@ const ProductDetailsPage = () => {
                                                                 : 'border-gray-200 dark:border-gray-700 hover:border-primary/50 text-gray-700 dark:text-gray-300'
                                                                 }`}
                                                         >
-                                                            <span className="material-symbols-outlined text-[18px]">{addon.type === 'banda' ? 'workspace_premium' : 'star'}</span>
+                                                            <Icon name={addon.type === 'banda' ? 'workspace_premium' : 'star'} size={18} />
                                                             {addon.name} (+${addon.price})
                                                         </button>
                                                     ))}
@@ -288,7 +289,7 @@ const ProductDetailsPage = () => {
                                     }
                                 }} className="w-full bg-primary hover:bg-primary/90 text-white font-bold text-lg py-4 rounded-lg shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2">
                                     <span>Agregar al Carrito</span>
-                                    <span className="material-symbols-outlined">shopping_cart</span>
+                                    <Icon name="shopping_cart" size={24} />
                                 </button>
                             </div>
                         </div>

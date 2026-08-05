@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
+import { Icon } from '../components/Icon';
 const NotFoundPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -15,9 +16,7 @@ const NotFoundPage = () => {
                 <div className="max-w-md w-full flex flex-col items-center gap-6">
                     {/* Icon / Image Placeholder */}
                     <div className="w-24 h-24 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-2">
-                        <span className="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-600">
-                            local_florist
-                        </span>
+                        <Icon name="local_florist" size={60} className="text-slate-300 dark:text-slate-600" />
                     </div>
 
                     <h1 className="text-6xl md:text-8xl font-serif font-bold text-slate-200 dark:text-slate-800 tracking-tighter">

@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase';
 import { Product } from '../../types';
 import { Category } from '../../types';
 
+import { Icon } from '../../components/Icon';
 const AdminProductsPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<{ id: string, name: string }[]>([]);
@@ -203,7 +204,7 @@ const AdminProductsPage = () => {
                     onClick={() => handleOpenModal()}
                     className="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg font-medium transition-colors"
                 >
-                    <span className="material-symbols-outlined">add</span>
+                    <Icon name="add" size={24} />
                     Agregar Producto
                 </button>
             </div>
@@ -241,10 +242,10 @@ const AdminProductsPage = () => {
                                 <td className="px-6 py-4 text-right">
                                     <div className="flex justify-end gap-2">
                                         <button onClick={() => handleOpenModal(product)} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-blue-600 transition-colors">
-                                            <span className="material-symbols-outlined text-[20px]">edit</span>
+                                            <Icon name="edit" size={20} />
                                         </button>
                                         <button onClick={() => handleDelete(product.id)} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded text-slate-500 hover:text-red-600 transition-colors">
-                                            <span className="material-symbols-outlined text-[20px]">delete</span>
+                                            <Icon name="delete" size={20} />
                                         </button>
                                     </div>
                                 </td>
@@ -406,7 +407,7 @@ const AdminProductsPage = () => {
                                     {/* File Input */}
                                     <div className="flex flex-col gap-2">
                                         <label className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg transition-colors w-fit">
-                                            <span className="material-symbols-outlined">upload</span>
+                                            <Icon name="upload" size={24} />
                                             <span className="text-sm font-medium">Subir Imagen</span>
                                             <input
                                                 type="file"

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { Icon } from '../../components/Icon';
 const N8N_WEBHOOK_URL = 'https://api-bluevelvet.cloud/webhook/manual-order';
 
 interface FormState {
@@ -97,7 +98,7 @@ export default function MetaEventsPage() {
             <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-8 space-y-6">
                 <div className="flex items-center gap-3 mb-2">
                     <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-white text-[20px]">campaign</span>
+                        <Icon name="campaign" size={20} className="text-white" />
                     </div>
                     <div>
                         <h2 className="font-semibold text-slate-800 dark:text-white">Datos del pedido</h2>
@@ -112,7 +113,7 @@ export default function MetaEventsPage() {
                     </label>
                     <div className="relative">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                            <span className="material-symbols-outlined text-[18px]">phone</span>
+                            <Icon name="phone" size={18} />
                         </span>
                         <input
                             type="tel"
@@ -134,7 +135,7 @@ export default function MetaEventsPage() {
                     </label>
                     <div className="relative">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-                            <span className="material-symbols-outlined text-[18px]">person</span>
+                            <Icon name="person" size={18} />
                         </span>
                         <input
                             type="text"
@@ -184,7 +185,7 @@ export default function MetaEventsPage() {
                         </>
                     ) : (
                         <>
-                            <span className="material-symbols-outlined text-[20px]">send</span>
+                            <Icon name="send" size={20} />
                             Enviar evento a Meta ADS
                         </>
                     )}
@@ -195,7 +196,7 @@ export default function MetaEventsPage() {
             {log.length > 0 && (
                 <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
                     <h3 className="font-semibold text-slate-700 dark:text-white mb-4 flex items-center gap-2">
-                        <span className="material-symbols-outlined text-[18px]">history</span>
+                        <Icon name="history" size={18} />
                         Historial de esta sesión
                     </h3>
                     <div className="space-y-2">

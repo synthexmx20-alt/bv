@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Icon } from '../components/Icon';
 const MaintenancePage = () => {
     return (
         <div
@@ -64,15 +65,11 @@ const MaintenancePage = () => {
                         animation: 'float 3s ease-in-out infinite',
                     }}
                 >
-                    <span
-                        className="material-symbols-outlined"
-                        style={{
-                            fontSize: '48px',
-                            color: '#818cf8',
-                        }}
-                    >
-                        construction
-                    </span>
+                    <Icon
+                        name="construction"
+                        size={48}
+                        style={{ color: '#818cf8' }}
+                    />
                 </div>
 
                 {/* Logo */}

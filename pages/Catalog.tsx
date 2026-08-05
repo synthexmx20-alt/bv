@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabase';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 
+import { Icon } from '../components/Icon';
 const CatalogPage = () => {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -192,13 +193,13 @@ const CatalogPage = () => {
                                     onClick={() => setViewMode('grid')}
                                     className={`transition-colors ${viewMode === 'grid' ? 'text-primary' : 'text-gray-600 hover:text-white'}`}
                                 >
-                                    <span className="material-symbols-outlined">grid_view</span>
+                                    <Icon name="grid_view" size={24} />
                                 </button>
                                 <button
                                     onClick={() => setViewMode('list')}
                                     className={`transition-colors ${viewMode === 'list' ? 'text-primary' : 'text-gray-600 hover:text-white'}`}
                                 >
-                                    <span className="material-symbols-outlined">view_list</span>
+                                    <Icon name="view_list" size={24} />
                                 </button>
                                 <div className="h-4 w-px bg-gray-700 mx-2"></div>
                                 <span>Mostrando {filteredProducts.length} resultados</span>
@@ -214,7 +215,7 @@ const CatalogPage = () => {
                                     }}
                                     className="text-xs text-red-400 hover:text-red-300 flex items-center gap-1"
                                 >
-                                    <span className="material-symbols-outlined text-[14px]">close</span>
+                                    <Icon name="close" size={14} />
                                     Limpiar Filtros
                                 </button>
                             )}
@@ -279,7 +280,7 @@ const CatalogPage = () => {
                                                     </p>
                                                 </div>
                                                 <div className="mt-auto pt-4 flex items-center gap-2 text-primary text-sm font-bold uppercase tracking-wider opacity-0 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-[-10px] group-hover:translate-x-0">
-                                                    Ver Detalle <span className="material-symbols-outlined text-base">arrow_forward</span>
+                                                    Ver Detalle <Icon name="arrow_forward" size={16} />
                                                 </div>
                                             </div>
                                         </Link>

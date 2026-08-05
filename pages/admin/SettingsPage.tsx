@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 
+import { Icon } from '../../components/Icon';
 interface SiteSetting {
     key: string;
     value: string;
@@ -121,12 +122,12 @@ const SettingsPage = () => {
                 >
                     {saving ? (
                         <>
-                            <span className="animate-spin material-symbols-outlined text-sm">refresh</span>
+                            <Icon name="refresh" size={14} className="animate-spin" />
                             Guardando...
                         </>
                     ) : (
                         <>
-                            <span className="material-symbols-outlined text-sm">save</span>
+                            <Icon name="save" size={14} />
                             Guardar Cambios
                         </>
                     )}
@@ -136,9 +137,7 @@ const SettingsPage = () => {
             {message && (
                 <div className={`mb-6 p-4 rounded-lg flex items-center gap-2 ${message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                     }`}>
-                    <span className="material-symbols-outlined">
-                        {message.type === 'success' ? 'check_circle' : 'error'}
-                    </span>
+                    <Icon name={message.type === 'success' ? 'check_circle' : 'error'} size={24} />
                     {message.text}
                 </div>
             )}
@@ -147,7 +146,7 @@ const SettingsPage = () => {
                 {settings.map((setting) => (
                     <div key={setting.key} className="grid md:grid-cols-3 gap-4 items-center">
                         <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                            <span className="material-symbols-outlined text-gray-400">{getIcon(setting.key)}</span>
+                            <Icon name={getIcon(setting.key)} size={24} className="text-gray-400" />
                             {getLabel(setting.key)}
                         </label>
                         <div className="md:col-span-2">

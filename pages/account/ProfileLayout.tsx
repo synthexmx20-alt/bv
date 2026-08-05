@@ -3,10 +3,12 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/Header';
 
+import { Icon } from '../../components/Icon';
+import type { IconName } from '../../components/Icon';
 const ProfileLayout = () => {
     const { signOut } = useAuth();
 
-    const navItems = [
+    const navItems: { path: string; label: string; icon: IconName }[] = [
         { path: '/account/profile', label: 'Mi Perfil', icon: 'person' },
         { path: '/account/addresses', label: 'Direcciones', icon: 'location_on' },
         { path: '/account/orders', label: 'Mis Pedidos', icon: 'shopping_bag' },
@@ -33,7 +35,7 @@ const ProfileLayout = () => {
                                             }`
                                         }
                                     >
-                                        <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
+                                        <Icon name={item.icon} size={20} />
                                         {item.label}
                                     </NavLink>
                                 ))}
@@ -41,7 +43,7 @@ const ProfileLayout = () => {
                                     onClick={() => signOut()}
                                     className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors mt-4 border-t border-border-light dark:border-border-dark pt-4"
                                 >
-                                    <span className="material-symbols-outlined text-[20px]">logout</span>
+                                    <Icon name="logout" size={20} />
                                     Cerrar Sesión
                                 </button>
                             </nav>

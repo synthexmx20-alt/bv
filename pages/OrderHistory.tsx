@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 
+import { Icon } from '../components/Icon';
 interface Order {
     id: string;
     created_at: string;
@@ -54,7 +55,7 @@ const OrderHistory = () => {
 
                 {orders.length === 0 ? (
                     <div className="bg-surface-light dark:bg-surface-dark rounded-xl p-8 text-center border border-border-light dark:border-border-dark">
-                        <span className="material-symbols-outlined text-6xl text-gray-400 mb-4">shopping_bag</span>
+                        <Icon name="shopping_bag" size={60} className="text-gray-400 mb-4" />
                         <h2 className="text-xl font-bold mb-2">No tienes pedidos aún</h2>
                         <p className="text-text-secondary mb-6">Parece que no has realizado ninguna compra.</p>
                         <Link to="/catalog" className="text-primary font-bold hover:underline">Ir al catálogo</Link>

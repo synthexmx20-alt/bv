@@ -1,8 +1,33 @@
 /* Blue Velvet V2 — hoja de estilos global.
-   Importa el sistema de tokens (BV2-02). Los componentes aún no se modifican. */
+   Entrada de Tailwind local (BV2-03). Importa el sistema de tokens (BV2-02). */
+
 @import './styles/tokens.css';
 
-/* Custom Scrollbar from usage */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------------------------------------------------------
+   Fuentes self-hosted (BV2-03). Licencias SIL OFL 1.1 — ver src/assets/fonts/.
+   Manrope y Noto Sans variables, subset latin, font-display: swap.
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('./assets/fonts/Manrope-200-800-normal-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url('./assets/fonts/NotoSans-300-800-normal-latin.woff2') format('woff2');
+}
+
+/* Custom scrollbar (dark luxury feel), heredado del head inline */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -19,4 +44,29 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #3e4255;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* --------------------------------------------------------------------------
+   Clases utilitarias heredadas que el CDN nunca generó (eran no-op).
+   Se definen para conservar paridad estructural sin rediseñar (BV2-03).
+   -------------------------------------------------------------------------- */
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-container {
+  width: 100%;
+}
+
+/* Utilidad de animación heredada usada por CheckoutHeader (CDN no la generaba). */
+.animate-slide-in-from-top-2 {
+  animation: slideUp 0.2s ease-out;
 }

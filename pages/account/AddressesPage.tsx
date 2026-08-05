@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
 
+import { Icon } from '../../components/Icon';
 interface Address {
     id: string;
     name: string;
@@ -209,7 +210,7 @@ const AddressesPage = () => {
             <div className="flex items-center justify-between mb-6 pb-6 border-b border-border-light dark:border-border-dark">
                 <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                        <span className="material-symbols-outlined text-3xl">location_on</span>
+                        <Icon name="location_on" size={30} />
                     </div>
                     <div>
                         <h1 className="text-2xl font-bold">Mis Direcciones</h1>
@@ -221,7 +222,7 @@ const AddressesPage = () => {
                         onClick={() => { setIsEditing(true); setEditingId(null); setFormData(initialFormState); setZipError(''); }}
                         className="bg-primary text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition-colors flex items-center gap-2"
                     >
-                        <span className="material-symbols-outlined text-[18px]">add</span>
+                        <Icon name="add" size={18} />
                         Nueva Dirección
                     </button>
                 )}
@@ -351,7 +352,7 @@ const AddressesPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {addresses.length === 0 ? (
                         <div className="col-span-2 text-center py-12 text-slate-400">
-                            <span className="material-symbols-outlined text-4xl mb-2">no_meeting_room</span>
+                            <Icon name="no_meeting_room" size={36} className="mb-2" />
                             <p>No tienes direcciones guardadas.</p>
                         </div>
                     ) : (
@@ -359,14 +360,14 @@ const AddressesPage = () => {
                             <div key={addr.id} className="relative bg-white dark:bg-slate-800 p-6 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary transition-colors group">
                                 <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <button onClick={() => handleEdit(addr)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-blue-600">
-                                        <span className="material-symbols-outlined text-[20px]">edit</span>
+                                        <Icon name="edit" size={20} />
                                     </button>
                                     <button onClick={() => handleDelete(addr.id)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full text-red-600">
-                                        <span className="material-symbols-outlined text-[20px]">delete</span>
+                                        <Icon name="delete" size={20} />
                                     </button>
                                 </div>
                                 <div className="flex items-center gap-2 mb-2">
-                                    <span className="material-symbols-outlined text-text-secondary">home_pin</span>
+                                    <Icon name="home_pin" size={24} className="text-text-secondary" />
                                     <h3 className="font-bold text-lg">{addr.name}</h3>
                                     {addr.is_default && <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">Default</span>}
                                 </div>

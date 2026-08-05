@@ -4,6 +4,7 @@ import { supabaseCRM } from '../../lib/supabase-crm';
 import { Link } from 'react-router-dom';
 import VisitorStats from '../../components/admin/VisitorStats';
 
+import { Icon } from '../../components/Icon';
 const AdminOrdersPage = () => {
     const [orders, setOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -165,14 +166,14 @@ const AdminOrdersPage = () => {
                                 <td className="py-4">
                                     <div className="flex items-center gap-2">
                                         <Link to={`/admin/orders/${order.id}`} className="text-primary-600 hover:text-primary-700 font-medium" title="Ver Detalles">
-                                            <span className="material-symbols-outlined">visibility</span>
+                                            <Icon name="visibility" size={24} />
                                         </Link>
                                         <button
                                             onClick={() => handleDelete(order.id, order.is_crm)}
                                             className="text-red-500 hover:text-red-700 transition-colors"
                                             title="Eliminar Pedido"
                                         >
-                                            <span className="material-symbols-outlined">delete</span>
+                                            <Icon name="delete" size={24} />
                                         </button>
                                     </div>
                                 </td>
