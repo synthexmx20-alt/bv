@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bluevelvetcuu.com/sitemap.xml
