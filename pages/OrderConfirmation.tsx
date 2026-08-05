@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import CheckoutHeader from '../components/CheckoutHeader';
+import { buildMetaPurchasePayload, isPurchaseEligible, purchaseStorageKey } from '../lib/purchaseTracking';
 
 interface OrderItem {
     id: string;
+    product_id: string;
     product_name: string;
     quantity: number;
     price: number;
@@ -65,6 +67,7 @@ const OrderConfirmation = () => {
                         *,
                         order_items (
                             id,
+                            product_id,
                             product_name,
                             quantity,
                             price,
@@ -86,22 +89,19 @@ const OrderConfirmation = () => {
         };
 
         fetchOrder();
-        fetchOrder();
     }, [id]);
 
     useEffect(() => {
-        if (order && !loading && !isHistoryView) {
+        if (order && !loading) {
             try {
-                // Safe access to global fbq
+                const storageKey = purchaseStorageKey(order.id);
+                const alreadyTracked = localStorage.getItem(storageKey) === '1';
+                if (!isPurchaseEligible(order.status, isHistoryView, alreadyTracked)) return;
+
                 const fbq = window.fbq;
                 if (typeof fbq === 'function') {
-                    fbq('track', 'Purchase', {
-                        value: order.total_amount,
-                        currency: 'MXN',
-                        content_ids: order.order_items.map((item: any) => item.id),
-                        content_type: 'product',
-                        order_id: order.id
-                    });
+                    fbq('track', 'Purchase', buildMetaPurchasePayload(order));
+                    localStorage.setItem(storageKey, '1');
                 }
             } catch (error) {
                 console.warn('Meta Pixel Error:', error);
