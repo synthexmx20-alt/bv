@@ -37,6 +37,7 @@ export interface CartItem { // Restoring CartItem if it was there or defining if
 }
 
 export interface CheckoutState {
+  checkoutAttemptId?: string;
   shipping: {
     fullName: string;
     phone: string;

@@ -7,6 +7,7 @@ export const CheckoutContext = createContext<{
     addToCart?: (product: any, size: any, quantity: number, selectedAddons?: any[]) => void;
     updateCartItemQuantity?: (index: number, quantity: number) => void;
     clearCart?: () => void;
+    ensureCheckoutAttemptId?: () => string;
     getEffectivePrice?: (size: any, date: string) => number;
 }>({
     checkoutData: {
@@ -20,5 +21,6 @@ export const CheckoutContext = createContext<{
     addToCart: () => { },
     updateCartItemQuantity: () => { },
     clearCart: () => { },
+    ensureCheckoutAttemptId: () => crypto.randomUUID(),
     getEffectivePrice: (size: any, date: string) => size.price
 });
