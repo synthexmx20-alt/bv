@@ -5,6 +5,7 @@ alter table public.orders
   add column if not exists checkout_attempt_id uuid,
   add column if not exists payment_method text,
   add column if not exists payment_preference_id text,
+  add column if not exists payment_init_point text,
   add column if not exists payment_currency text default 'MXN',
   add column if not exists payment_amount numeric(12, 2),
   add column if not exists paid_at timestamptz,
@@ -120,7 +121,11 @@ begin
       'created', false,
       'status', v_existing.status,
       'total_amount', v_existing.total_amount,
-      'payment_preference_id', v_existing.payment_preference_id
+      'discount_amount', coalesce(v_existing.discount_amount, 0),
+      'shipping_amount', coalesce((v_existing.shipping_details ->> 'cost')::numeric, 0),
+      'payment_method', v_existing.payment_method,
+      'payment_preference_id', v_existing.payment_preference_id,
+      'payment_init_point', v_existing.payment_init_point
     );
   end if;
 
@@ -281,7 +286,11 @@ begin
     'created', true,
     'status', v_status,
     'total_amount', p_total_amount,
-    'payment_preference_id', null
+    'discount_amount', p_discount_amount,
+    'shipping_amount', v_shipping,
+    'payment_method', p_payment_method,
+    'payment_preference_id', null,
+    'payment_init_point', null
   );
 end;
 $$;
