@@ -12,20 +12,23 @@ interface OrderItem {
     addons?: any[];
 }
 
+interface ShippingDetails {
+    fullName?: string;
+    street?: string;
+    colonia?: string;
+    reference?: string;
+    phone?: string;
+    date?: string;
+    timeSlot?: string;
+    paymentMethod?: 'card' | 'spei';
+}
+
 interface Order {
     id: string;
     created_at: string;
     total_amount: number;
     status: string;
-    shipping_details: {
-        fullName: string;
-        street: string;
-        colonia: string;
-        reference: string;
-        phone: string;
-        date: string;
-        timeSlot: string;
-    };
+    shipping_details: ShippingDetails | null;
     order_items: OrderItem[];
 }
 
@@ -130,7 +133,7 @@ const OrderConfirmation = () => {
     const isPendingTransfer = order.status === 'pending_transfer' || isSpeiParam;
 
     // Defensive access to shipping details
-    const shipping = order.shipping_details || {};
+    const shipping: ShippingDetails = order.shipping_details ?? {};
     const safeOrderId = order.id || '';
     const safeTotal = order.total_amount || 0;
     const safeItems = order.order_items || [];
