@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 supabase/.temp/
+.worktrees/
 
 # Editor directories and files
 .vscode/*
