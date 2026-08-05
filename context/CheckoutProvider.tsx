@@ -147,8 +147,20 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const updateCheckoutData = (section: keyof CheckoutState, data: any) => {
         setCheckoutData(prev => ({
             ...prev,
-            [section]: data
+            [section]: data,
+            ...(section === 'checkoutAttemptId' ? {} : { checkoutAttemptId: undefined })
         }));
+    };
+
+    const ensureCheckoutAttemptId = (): string => {
+        if (checkoutData.checkoutAttemptId) return checkoutData.checkoutAttemptId;
+
+        const attemptId = crypto.randomUUID();
+        setCheckoutData(prev => ({
+            ...prev,
+            checkoutAttemptId: prev.checkoutAttemptId ?? attemptId
+        }));
+        return attemptId;
     };
 
     const addToCart = async (product: Product, size: ProductSize, quantity: number = 1, selectedAddons: any[] = []) => {
@@ -175,7 +187,7 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                 newItems = [...currentItems, { product, size, quantity, selectedAddons }];
             }
 
-            return { ...prev, items: newItems };
+            return { ...prev, items: newItems, checkoutAttemptId: undefined };
         });
 
         // Update DB if logged in
@@ -246,7 +258,7 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             } else {
                 newItems[index] = { ...newItems[index], quantity };
             }
-            return { ...prev, items: newItems };
+            return { ...prev, items: newItems, checkoutAttemptId: undefined };
         });
 
         if (user) {
@@ -282,7 +294,7 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
 
     const clearCart = async () => {
-        setCheckoutData(prev => ({ ...prev, items: [], discount: undefined }));
+        setCheckoutData(prev => ({ ...prev, items: [], discount: undefined, checkoutAttemptId: undefined }));
         if (user) {
             await supabase.from('cart_items').delete().eq('user_id', user.id);
         }
@@ -299,7 +311,7 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
 
     return (
-        <CheckoutContext.Provider value={{ checkoutData, updateCheckoutData, addToCart, updateCartItemQuantity, clearCart, getEffectivePrice }}>
+        <CheckoutContext.Provider value={{ checkoutData, updateCheckoutData, addToCart, updateCartItemQuantity, clearCart, ensureCheckoutAttemptId, getEffectivePrice }}>
             {children}
         </CheckoutContext.Provider>
     );

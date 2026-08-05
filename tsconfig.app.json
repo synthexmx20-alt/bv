@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["vite/client", "vitest/globals"],
+    "noEmit": true
+  },
+  "include": [
+    "*.ts",
+    "*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "context/**/*.ts",
+    "context/**/*.tsx",
+    "hooks/**/*.ts",
+    "lib/**/*.ts",
+    "pages/**/*.ts",
+    "pages/**/*.tsx",
+    "tests/**/*.ts",
+    "vite.config.ts"
+  ],
+  "exclude": ["dist", "node_modules", "supabase/functions"]
+}

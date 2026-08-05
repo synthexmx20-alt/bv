@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import CheckoutHeader from '../../components/CheckoutHeader';
 import { CheckoutContext } from '../../context/CheckoutContext';
-import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
+import { createSecureCheckout, toCheckoutRequest } from '../../lib/checkoutApi';
 
 const CheckoutPayment = () => {
-    const { checkoutData, updateCheckoutData, getEffectivePrice, clearCart } = useContext(CheckoutContext);
+    const { checkoutData, updateCheckoutData, getEffectivePrice, clearCart, ensureCheckoutAttemptId } = useContext(CheckoutContext);
     const { user } = useAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -14,6 +14,7 @@ const CheckoutPayment = () => {
     const [couponCode, setCouponCode] = useState('');
     const [couponError, setCouponError] = useState('');
     const [couponSuccess, setCouponSuccess] = useState('');
+    const [checkoutError, setCheckoutError] = useState('');
 
     const items = checkoutData.items || [];
     const subtotal = items.reduce((sum, item) => {
@@ -25,150 +26,41 @@ const CheckoutPayment = () => {
     const shippingCost = checkoutData.shippingCost || 0;
     const totalAmount = Math.max(0, subtotal + shippingCost - discountAmount);
 
-    const handleApplyCoupon = async () => {
+    const handleApplyCoupon = () => {
         setCouponError('');
         setCouponSuccess('');
 
-        if (!couponCode.trim()) return;
-
-        try {
-            const { data: coupon, error } = await supabase
-                .from('coupons')
-                .select('*')
-                .eq('code', couponCode.toUpperCase())
-                .eq('active', true)
-                .single();
-
-            if (error || !coupon) {
-                setCouponError('Cupón no válido o expirado.');
-                return;
-            }
-
-            // Validations
-            if (coupon.expiration_date && new Date(coupon.expiration_date) < new Date()) {
-                setCouponError('Este cupón ha expirado.');
-                return;
-            }
-
-            if (coupon.usage_limit && coupon.usage_limit <= coupon.usage_count) {
-                setCouponError('Este cupón ha alcanzado su límite de usos.');
-                return;
-            }
-
-            // Calculate Discount
-            let calculatedDiscount = 0;
-            if (coupon.discount_type === 'percentage') {
-                calculatedDiscount = (subtotal * coupon.value) / 100;
-            } else {
-                calculatedDiscount = coupon.value;
-            }
-
-            // Update Context
-            updateCheckoutData('discount', {
-                code: coupon.code,
-                amount: calculatedDiscount,
-                type: coupon.discount_type
-            });
-            setCouponSuccess(`¡Descuento de $${calculatedDiscount} aplicado!`);
-            setCouponCode('');
-
-        } catch (err) {
-            console.error(err);
-            setCouponError('Error al validar cupón.');
+        const normalizedCode = couponCode.trim().toUpperCase();
+        if (!normalizedCode) return;
+        if (!/^[A-Z0-9_-]{1,50}$/.test(normalizedCode)) {
+            setCouponError('Usa únicamente letras, números, guion o guion bajo.');
+            return;
         }
+
+        updateCheckoutData('discount', {
+            code: normalizedCode,
+            amount: 0,
+            type: 'fixed'
+        });
+        setCouponSuccess('El cupón se validará al crear el pedido.');
+        setCouponCode('');
     };
 
     const handleFinishOrder = async () => {
         if (!user) {
-            alert('Por favor inicia sesión para completar tu pedido');
+            setCheckoutError('Inicia sesión para completar tu pedido. Conservaremos los datos capturados.');
             navigate('/login');
             return;
         }
 
+        setCheckoutError('');
         setLoading(true);
 
         try {
-            const isSpei = checkoutData.paymentMethod === 'spei';
-            // Use 'pending_transfer' for SPEI to identify it easily
-            const initialStatus = isSpei ? 'pending_transfer' : 'pending_payment';
+            const attemptId = ensureCheckoutAttemptId?.() ?? crypto.randomUUID();
+            const request = toCheckoutRequest(checkoutData, window.location.origin, attemptId);
+            const result = await createSecureCheckout(request);
 
-            // 1. Create Order
-            const { data: orderData, error: orderError } = await supabase
-                .from('orders')
-                .insert({
-                    user_id: user.id,
-                    total_amount: totalAmount,
-                    status: initialStatus,
-                    coupon_code: checkoutData.discount?.code, // Save Coupon
-                    discount_amount: checkoutData.discount?.amount, // Save Discount
-                    shipping_details: {
-                        ...checkoutData.shipping,
-                        cost: checkoutData.shippingCost || 0,
-                        paymentMethod: checkoutData.paymentMethod // Persist method in metadata
-                    },
-                    message_details: checkoutData.message
-                })
-                .select()
-                .single();
-
-            if (orderError) throw orderError;
-
-
-            // 2. Create Order Items
-            const orderItems = items.map(item => {
-                const itemPrice = getEffectivePrice ? getEffectivePrice(item.size, checkoutData.shipping.date) : item.size.price;
-                return {
-                    order_id: orderData.id,
-                    product_id: item.product.id,
-                    product_name: item.product.name,
-                    quantity: item.quantity,
-                    price: itemPrice,
-                    size: item.size.name,
-                    addons: item.selectedAddons || []
-                };
-            });
-
-            const { error: itemsError } = await supabase
-                .from('order_items')
-                .insert(orderItems);
-
-            if (itemsError) throw itemsError;
-
-            // Increment Coupon Usage if used
-            if (checkoutData.discount?.code) {
-                await supabase.rpc('increment_coupon_usage', { code_input: checkoutData.discount.code });
-                // Fallback if RPC doesnt exist (we will make user create it or just simple update)
-                // simple update for now, prone to race conditions but fine for MVP
-                const { data: currentCoupon } = await supabase.from('coupons').select('usage_count').eq('code', checkoutData.discount.code).single();
-                if (currentCoupon) {
-                    await supabase.from('coupons').update({ usage_count: currentCoupon.usage_count + 1 }).eq('code', checkoutData.discount.code);
-                }
-            }
-
-            // --- TRIGGER EMAIL NOTIFICATION (AWAITING to ensure delivery before redirect) ---
-            try {
-                const { data: emailData, error: emailError } = await supabase.functions.invoke('order-confirmation', {
-                    body: { orderId: orderData.id }
-                });
-
-                if (emailError) {
-                    console.error("❌ Error invocando función de correo:", emailError);
-                    alert(`Aviso: El pedido se creó, pero no se pudo enviar el correo de confirmación. (Error de Red: ${JSON.stringify(emailError)})`);
-                } else if (emailData?.error) {
-                    console.error("❌ Función devolvió error interno:", emailData.error);
-                    alert(`Aviso: El pedido se creó, pero hubo un error enviando el correo: ${emailData.error}`);
-                } else {
-                    console.log("✅ Correo enviado correctamente.");
-                    // Success is silent as requested
-                }
-            } catch (err: any) {
-                console.error("❌ Excepción crítica correo:", err);
-                alert(`Aviso: El pedido se creó, pero falló el sistema de correos. (${err.message})`);
-            }
-            // --------------------------------------------------------------------
-
-            // Clear checkout items locally now that order is saved
-            // Clear checkout items and discount using the dedicated function to ensure DB sync
             if (clearCart) {
                 await clearCart();
             } else {
@@ -176,58 +68,18 @@ const CheckoutPayment = () => {
                 updateCheckoutData('discount', undefined);
             }
 
-            if (isSpei) {
-                // Direct redirect to confirmation for manual transfer flow
-                navigate(`/order-confirmation/${orderData.id}?payment=spei`);
+            if (result.status === 'pending_transfer') {
+                navigate(`/order-confirmation/${result.orderId}?payment=spei`);
                 return;
             }
 
-            // 3. Create Mercado Pago Preference (For Card)
-            // Prepare items with effective price
-            const itemsWithEffectivePrice = checkoutData.items.map(item => ({
-                ...item,
-                size: {
-                    ...item.size,
-                    price: getEffectivePrice ? getEffectivePrice(item.size, checkoutData.shipping.date) : item.size.price
-                }
-            }));
-
-            const { data: preferenceData, error: functionError } = await supabase.functions.invoke('create-preference', {
-                body: {
-                    orderId: orderData.id,
-                    items: itemsWithEffectivePrice,
-                    discount: checkoutData.discount?.amount, // Pass discount to preference
-                    user: {
-                        email: user.email,
-                        name: checkoutData.shipping.fullName
-                    },
-                    origin: window.location.origin
-                }
-            });
-
-            if (functionError) {
-                console.error("Function Error Details:", functionError);
-                throw new Error(`Error en el servidor de pagos: ${functionError.message}`);
-            }
-
-            if (preferenceData.error) {
-                console.error("Preference Data Error:", preferenceData.error);
-                throw new Error(`Error de Mercado Pago: ${preferenceData.error}`);
-            }
-
-            // 4. Redirect to Mercado Pago
-            if (preferenceData.initPoint) {
-                // Open Mercado Pago in new tab
-                window.open(preferenceData.initPoint, '_blank');
-                // Navigate current tab to waiting page
-                navigate(`/checkout/waiting/${orderData.id}`);
-            } else {
+            if (!result.initPoint) {
                 throw new Error('No se recibió el link de pago');
             }
-
-        } catch (error: any) {
-            console.error('Error processing order full details:', error);
-            alert(error.message || 'Hubo un error al procesar tu pedido');
+            window.location.assign(result.initPoint);
+        } catch (error: unknown) {
+            console.error('Error processing checkout:', error);
+            setCheckoutError(error instanceof Error ? error.message : 'Hubo un error al procesar tu pedido.');
         } finally {
             setLoading(false);
         }
@@ -381,11 +233,19 @@ const CheckoutPayment = () => {
                                     </div>
                                 )}
                                 <div className="flex justify-between items-end pt-2">
-                                    <span className="text-text-secondary text-sm font-medium mb-1">Total Final</span>
+                                    <span className="text-text-secondary text-sm font-medium mb-1">Total estimado</span>
                                     <div className="flex flex-col items-end"><span className="text-white text-3xl font-bold tracking-tight text-primary">${totalAmount}</span></div>
                                 </div>
+                                <p className="text-xs text-text-secondary">
+                                    El servidor confirmará precios, cupón y envío antes de crear el pedido.
+                                </p>
                             </div>
 
+                            {checkoutError && (
+                                <p role="alert" className="rounded-lg border border-red-800/60 bg-red-950/40 p-3 text-sm text-red-300">
+                                    {checkoutError}
+                                </p>
+                            )}
                             <button
                                 onClick={handleFinishOrder}
                                 disabled={loading}
