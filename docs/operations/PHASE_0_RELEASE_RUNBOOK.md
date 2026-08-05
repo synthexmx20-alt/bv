@@ -112,7 +112,8 @@ Record after deployment:
 
 - production Git commit: pending;
 - Cloudflare preview/deployment ID: pending;
-- Supabase function versions: pending;
-- applied migrations: `20260115000000` history repaired; Phase 0 pending;
-- smoke-test timestamp and operator: pending;
+- Supabase function versions: `checkout-order` v1, `mercadopago-webhook` v6, `order-confirmation` v13;
+- applied migrations: `20260115000000` history repaired; `20260805030000` applied; restrictions pending;
+- backend negative smoke test: 2026-08-05 03:48 America/Mexico_City — missing auth 401; tampered total 400;
+- frontend smoke-test timestamp and operator: pending;
 - rollback deployment ID: pending.
