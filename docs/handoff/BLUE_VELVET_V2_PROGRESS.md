@@ -71,7 +71,7 @@ Marcar una tarea como completa implica comprobar que conserva:
 |---|---|---|---|---|---|---|---|
 | BV2-00 | Baseline reproducible | — | COMPLETA | `main` | `927c408` (partida) | npm ci, lint, typecheck, 63/63 tests y build aprobados con Node 24.14.1/npm 11.11.0; audit: 2 high (react-router RSC, diferido); sin secretos en Git | LOCAL |
 | BV2-01 | CI y staging | BV2-00 | PENDIENTE | — | — | — | STAGING |
-| BV2-02 | Design tokens | BV2-00 | PENDIENTE | — | — | — | LOCAL |
+| BV2-02 | Design tokens | BV2-00 | COMPLETA | `main` | — | `src/styles/tokens.css` + `docs/design/BLUE_VELVET_V2_DESIGN_SYSTEM.md`; tokens importados en `src/index.css` (enlazado en `index.tsx`); `npm run check` exit 0; bundle JS idéntico a baseline (sin cambio visual); sin hex duplicados; estados focus/success/warning/error presentes | LOCAL |
 | BV2-03 | CSS/fonts/icons locales | BV2-02 | PENDIENTE | — | — | — | LOCAL |
 | BV2-04 | Primitivas UI | BV2-02,03 | PENDIENTE | — | — | — | LOCAL |
 | BV2-05 | Route splitting | BV2-00 | PENDIENTE | — | — | — | LOCAL |

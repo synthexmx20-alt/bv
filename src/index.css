@@ -1,3 +1,7 @@
+/* Blue Velvet V2 — hoja de estilos global.
+   Importa el sistema de tokens (BV2-02). Los componentes aún no se modifican. */
+@import './styles/tokens.css';
+
 /* Custom Scrollbar from usage */
 ::-webkit-scrollbar {
   width: 8px;

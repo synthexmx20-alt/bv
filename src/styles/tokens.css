@@ -1,0 +1,234 @@
+/* ==========================================================================
+   Blue Velvet V2 — Design Tokens
+   ==========================================================================
+   Sistema visual centralizado. Fuente única de verdad para color, tipografía,
+   espaciado, radius, sombras, contenedores, motion y z-index.
+
+   Dirección: boutique floral premium contemporánea. Superficie oscura casi
+   negra (navy), blanco cálido, acento azul Blue Velvet usado con moderación.
+   El color lo aportan las fotografías de producto, no la interfaz.
+
+   Reglas de este archivo:
+   - Sin valores duplicados. Toda referencia visual pasa por estas variables.
+   - No añadir glow, neón, gradientes tecnológicos ni glassmorphism.
+   - Ver docs/design/BLUE_VELVET_V2_DESIGN_SYSTEM.md para uso y anti-patrones.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------------
+     1. COLOR — primitivos de marca (referencia interna, no usar directo)
+     ------------------------------------------------------------------------ */
+  --bv-navy-950: #0b0e1a;   /* casi negro azulado — fondo raíz            */
+  --bv-navy-900: #101322;   /* fondo página (alineado al theme actual)    */
+  --bv-navy-800: #1c1d27;   /* superficie elevada (cards, drawers)        */
+  --bv-navy-700: #282b39;   /* superficie highlight / bordes              */
+  --bv-navy-600: #3e4255;   /* hover de bordes, iconos inactivos          */
+  --bv-navy-300: #9da1b9;   /* texto secundario                           */
+  --bv-navy-100: #d6d9e4;   /* texto de apoyo sobre oscuro                */
+  --bv-white-warm: #f6f6f4; /* blanco cálido — texto principal / fondo claro */
+  --bv-blue-500: #1132d4;   /* acento Blue Velvet (primario)              */
+  --bv-blue-400: #3d55e0;   /* acento hover sobre oscuro                  */
+  --bv-blue-600: #0d27a8;   /* acento presionado                          */
+  --bv-blue-050: #eef0fd;   /* tinte de acento sobre claro                */
+
+  /* ------------------------------------------------------------------------
+     2. COLOR — superficies semánticas
+     ------------------------------------------------------------------------ */
+  --color-bg-canvas: var(--bv-navy-900);      /* fondo de página            */
+  --color-bg-root: var(--bv-navy-950);        /* fondo bajo el canvas       */
+  --color-surface: var(--bv-navy-800);        /* card, panel, drawer        */
+  --color-surface-raised: var(--bv-navy-700); /* superficie elevada, hover  */
+  --color-surface-inverse: var(--bv-white-warm); /* modo claro / inverso  */
+  --color-overlay: rgb(11 14 26 / 0.72);      /* scrim tras modal/drawer    */
+  --color-border: var(--bv-navy-700);         /* borde por defecto          */
+  --color-border-strong: var(--bv-navy-600);  /* borde enfatizado           */
+
+  /* ------------------------------------------------------------------------
+     3. COLOR — texto
+     ------------------------------------------------------------------------ */
+  --color-text-primary: var(--bv-white-warm); /* texto principal            */
+  --color-text-secondary: var(--bv-navy-300); /* metadatos, labels          */
+  --color-text-tertiary: var(--bv-navy-600);  /* placeholder, deshabilitado */
+  --color-text-inverse: var(--bv-navy-950);   /* texto sobre acento/claro   */
+  --color-text-on-accent: #ffffff;            /* texto sobre botón azul     */
+
+  /* ------------------------------------------------------------------------
+     4. COLOR — acento de marca (uso limitado: CTAs, foco, enlaces, precio)
+     ------------------------------------------------------------------------ */
+  --color-accent: var(--bv-blue-500);
+  --color-accent-hover: var(--bv-blue-400);
+  --color-accent-active: var(--bv-blue-600);
+  --color-accent-soft: var(--bv-blue-050);
+
+  /* ------------------------------------------------------------------------
+     5. COLOR — estados (feedback). Todos AA sobre --color-bg-canvas.
+     ------------------------------------------------------------------------ */
+  --color-success: #3f9d63;
+  --color-success-soft: rgb(63 157 99 / 0.14);
+  --color-warning: #e0a43c;
+  --color-warning-soft: rgb(224 164 60 / 0.14);
+  --color-error: #e05a5a;
+  --color-error-soft: rgb(224 90 90 / 0.14);
+  --color-info: var(--bv-blue-400);
+  --color-info-soft: rgb(61 85 224 / 0.16);
+
+  /* ------------------------------------------------------------------------
+     6. COLOR — foco accesible (anillo visible, WCAG 2.4.7)
+     ------------------------------------------------------------------------ */
+  --color-focus-ring: #7d8ef0; /* contraste AA sobre navy y sobre blanco */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring: var(--focus-ring-width) solid var(--color-focus-ring);
+
+  /* ------------------------------------------------------------------------
+     7. TIPOGRAFÍA — familias
+     ------------------------------------------------------------------------ */
+  --font-display: "Manrope", "Noto Sans", system-ui, sans-serif;
+  --font-body: "Noto Sans", "Manrope", system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", "Menlo", "Consolas", monospace;
+
+  /* Escala tipográfica editorial (fluida entre 390px y 1280px) */
+  --text-hero: clamp(2.25rem, 1.55rem + 3.5vw, 4rem);       /* 36 → 64   */
+  --text-display: clamp(1.875rem, 1.35rem + 2.6vw, 3rem);   /* 30 → 48   */
+  --text-title: clamp(1.5rem, 1.2rem + 1.5vw, 2.125rem);    /* 24 → 34   */
+  --text-heading: clamp(1.25rem, 1.1rem + 0.75vw, 1.625rem);/* 20 → 26   */
+  --text-subhead: 1.125rem;                                  /* 18        */
+  --text-body: 1rem;                                         /* 16        */
+  --text-body-sm: 0.875rem;                                  /* 14        */
+  --text-caption: 0.75rem;                                   /* 12        */
+  --text-overline: 0.6875rem;                                /* 11        */
+
+  /* Pesos */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Line-height */
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* Letter-spacing (tracking editorial) */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.12em;
+  --tracking-overline: 0.18em;
+
+  /* ------------------------------------------------------------------------
+     8. ESPACIADO — escala base 4px
+     ------------------------------------------------------------------------ */
+  --space-0: 0;
+  --space-1: 0.25rem;  /* 4   */
+  --space-2: 0.5rem;   /* 8   */
+  --space-3: 0.75rem;  /* 12  */
+  --space-4: 1rem;     /* 16  */
+  --space-5: 1.25rem;  /* 20  */
+  --space-6: 1.5rem;   /* 24  */
+  --space-8: 2rem;     /* 32  */
+  --space-10: 2.5rem;  /* 40  */
+  --space-12: 3rem;    /* 48  */
+  --space-16: 4rem;    /* 64  */
+  --space-20: 5rem;    /* 80  */
+  --space-24: 6rem;    /* 96  */
+
+  /* ------------------------------------------------------------------------
+     9. RADIUS — editorial, discreto
+     ------------------------------------------------------------------------ */
+  --radius-xs: 0.25rem;  /* 4  — chips, tags          */
+  --radius-sm: 0.5rem;   /* 8  — inputs, botones      */
+  --radius-md: 0.75rem;  /* 12 — cards, imágenes      */
+  --radius-lg: 1rem;     /* 16 — drawers, modales     */
+  --radius-xl: 1.5rem;   /* 24 — hero, paneles grandes */
+  --radius-full: 9999px; /* pills, avatares           */
+
+  /* ------------------------------------------------------------------------
+     10. SOMBRAS — sobrias, sin glow ni tinte de acento
+     ------------------------------------------------------------------------ */
+  --shadow-xs: 0 1px 2px rgb(11 14 26 / 0.18);
+  --shadow-sm: 0 1px 3px rgb(11 14 26 / 0.24), 0 1px 2px rgb(11 14 26 / 0.16);
+  --shadow-md: 0 4px 12px rgb(11 14 26 / 0.30);
+  --shadow-lg: 0 8px 24px rgb(11 14 26 / 0.38);
+  --shadow-xl: 0 16px 48px rgb(11 14 26 / 0.46);
+
+  /* ------------------------------------------------------------------------
+     11. CONTENEDORES — ancho máximo + gutter fluido
+     ------------------------------------------------------------------------ */
+  --container-sm: 40rem;    /* 640  — texto editorial, checkout   */
+  --container-md: 48rem;    /* 768  — detalle de producto         */
+  --container-lg: 64rem;    /* 1024 — catálogo                    */
+  --container-xl: 80rem;    /* 1280 — shell global / admin        */
+  --container-gutter: clamp(1rem, 0.65rem + 1.8vw, 2.5rem); /* 16 → 40 */
+
+  /* ------------------------------------------------------------------------
+     12. BREAKPOINTS — documentados (referencia; usar en media queries)
+     Móvil primero. Diseño base 390×844; verificado en 360/375/430,
+     tablet 768, laptop 1024, desktop 1280/1440.
+     ------------------------------------------------------------------------ */
+  --bp-xs: 22.5rem;   /* 360  — móvil pequeño   */
+  --bp-sm: 26.5625rem;/* 425  — móvil grande    */
+  --bp-md: 48rem;     /* 768  — tablet          */
+  --bp-lg: 64rem;     /* 1024 — laptop          */
+  --bp-xl: 80rem;     /* 1280 — desktop         */
+  --bp-2xl: 96rem;    /* 1536 — desktop amplio  */
+
+  /* ------------------------------------------------------------------------
+     13. MOTION — duraciones y easing. Límites: ≤300ms, transform/opacity.
+     ------------------------------------------------------------------------ */
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --transition-fade: opacity var(--duration-normal) var(--ease-standard);
+  --transition-color: color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+  --transition-transform: transform var(--duration-normal) var(--ease-decelerate);
+
+  /* ------------------------------------------------------------------------
+     14. Z-INDEX — capas ordenadas
+     ------------------------------------------------------------------------ */
+  --z-base: 0;
+  --z-raised: 10;      /* sticky chips, barra de filtros     */
+  --z-sticky: 20;      /* header                             */
+  --z-overlay: 30;     /* scrim                              */
+  --z-drawer: 40;      /* cart drawer, menú móvil            */
+  --z-modal: 50;       /* diálogos                           */
+  --z-popover: 60;     /* dropdowns, tooltips                */
+  --z-toast: 70;       /* notificaciones                     */
+  --z-max: 80;
+
+  /* ------------------------------------------------------------------------
+     15. MEDIDAS DE COMPONENTE — accesibilidad (touch targets)
+     ------------------------------------------------------------------------ */
+  --touch-target: 2.75rem;      /* 44px — mínimo WCAG 2.5.5        */
+  --control-height: 2.75rem;    /* altura estándar de control      */
+  --control-height-sm: 2.25rem; /* 36px — controles densos         */
+  --icon-size: 1.5rem;          /* 24px                            */
+  --icon-size-sm: 1.25rem;      /* 20px                            */
+  --header-height: 4rem;        /* 64px                            */
+}
+
+/* ==========================================================================
+   RESPETO A prefers-reduced-motion (WCAG 2.3.3 / 2.2.2)
+   Anula animación y transición sin eliminar el cambio de estado.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
