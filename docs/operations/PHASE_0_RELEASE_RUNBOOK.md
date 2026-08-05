@@ -4,7 +4,8 @@
 
 - Supabase project ref: `zbzywcjkiyhodecpytnt`
 - Production frontend: `https://bluevelvetcuu.com`
-- Cloudflare Pages project: `bluevelvet-1zu`
+- Cloudflare Pages project: `bluevelvet`
+- Cloudflare Pages domain: `bluevelvet-1zu.pages.dev`
 - Production branch observed in Cloudflare: `main`
 - Logical backup: `%LOCALAPPDATA%\BlueVelvetBackups\phase0-20260805-020929`
 - Release branch: `codex/phase0-security`
@@ -18,7 +19,7 @@ Never record credentials, database connection strings, customer data, or secret 
 - The remote-only migration `20260316071353` was recovered into the repository.
 - `MP_ACCESS_TOKEN`, `RESEND_API_KEY`, `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` exist in Supabase secrets.
 - The additive and restrictive SQL migrations pass locally; pgTAP reports 16/16.
-- The browser suite reports 58/58 and lint, type-check, and build pass.
+- The automated suite reports 61/61 and lint, type-check, and build pass.
 
 ## Deployment order
 
@@ -108,12 +109,20 @@ The restrictions rollback intentionally reopens the legacy security exposure and
 
 ## Release evidence
 
-Record after deployment:
+Recorded release evidence:
 
-- production Git commit: pending;
-- Cloudflare preview/deployment ID: pending;
-- Supabase function versions: `checkout-order` v1, `mercadopago-webhook` v6, `order-confirmation` v13;
-- applied migrations: `20260115000000` history repaired; `20260805030000` applied; restrictions pending;
+- production frontend source commit: `0e85562`;
+- final Cloudflare preview: `f0ffe5d1-b04b-4417-bde5-faa5258e1f2f` (`phase0-cachefix.bluevelvet-1zu.pages.dev`);
+- final Cloudflare production: `50993b20-77fe-441f-953b-32c1d131f899`;
+- production artifact: `bluevelvet-phase0-0e85562-cachefix-v5.zip`, SHA-256 `0ADE2C1819D8B6790643E895420CBC3FB64AB104A8874B4CDEF55949FBE93581`;
+- Supabase function versions: `checkout-order` v1, `mercadopago-webhook` v6, `order-confirmation` v13, retired `create-preference` v23;
+- applied migrations: `20260115000000` history repaired; `20260805030000` and `20260805040000` applied;
 - backend negative smoke test: 2026-08-05 03:48 America/Mexico_City — missing auth 401; tampered total 400;
-- frontend smoke-test timestamp and operator: pending;
-- rollback deployment ID: pending.
+- frontend smoke test: 2026-08-05 04:16 America/Mexico_City — 390×844, 34 products, PDP, cart, checkout auth gate, no horizontal overflow, no runtime errors;
+- database post-cutover smoke: anonymous product read returns 200; anonymous coupon read returns an empty RLS-filtered result;
+- legacy endpoint smoke: allowed storefront origin returns 410 `CHECKOUT_FLOW_RETIRED`; untrusted origin returns 403;
+- rollback deployment ID: `68459e41-1f73-4223-930a-f691db2077b2`.
+
+### Packaging incident and recovery
+
+The first upload used a ZIP whose central-directory entries contained Windows backslashes. Cloudflare stored those as literal filenames, so the module path returned the SPA HTML and the application did not mount. Production was immediately rolled back to `68459e41-1f73-4223-930a-f691db2077b2`. The corrected archive was created with POSIX-style `/` entries, validated in a named preview, and redeployed. A one-time `-p0` asset filename was used to avoid a browser-cached response from the failed deployment.
