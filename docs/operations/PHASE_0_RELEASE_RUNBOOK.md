@@ -8,6 +8,7 @@
 - Cloudflare Pages domain: `bluevelvet-1zu.pages.dev`
 - Production branch observed in Cloudflare: `main`
 - Logical backup: `%LOCALAPPDATA%\BlueVelvetBackups\phase0-20260805-020929`
+- Post-hotfix backup: `%LOCALAPPDATA%\BlueVelvetBackups\phase0-hotfix-20260805-0435`
 - Release branch: `codex/phase0-security`
 
 Never record credentials, database connection strings, customer data, or secret values in this file.
@@ -19,7 +20,7 @@ Never record credentials, database connection strings, customer data, or secret 
 - The remote-only migration `20260316071353` was recovered into the repository.
 - `MP_ACCESS_TOKEN`, `RESEND_API_KEY`, `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` exist in Supabase secrets.
 - The additive and restrictive SQL migrations pass locally; pgTAP reports 16/16.
-- The automated suite reports 61/61 and lint, type-check, and build pass.
+- The automated suite reports 63/63 and lint, type-check, and build pass.
 
 ## Deployment order
 
@@ -101,7 +102,7 @@ Rollback order:
 3. restore the previous Edge Function versions;
 4. if additive schema rollback is genuinely required, restore from the logical backup in a controlled maintenance window instead of dropping columns in production.
 
-The restrictions rollback intentionally reopens the legacy security exposure and is emergency-only. Reapply Phase 0 as soon as the compatible frontend is restored.
+The restrictions rollback intentionally reopens the legacy security exposure and is emergency-only. Reapply Phase 0 as soon as the compatible frontend is restored. Migration `20260805050000_phase0_security_followup.sql` must not be rolled back: it prevents profile role escalation and protects product storage and visitor analytics independently of the checkout frontend.
 
 ## Dependency audit decision
 
@@ -115,12 +116,16 @@ Recorded release evidence:
 - final Cloudflare preview: `f0ffe5d1-b04b-4417-bde5-faa5258e1f2f` (`phase0-cachefix.bluevelvet-1zu.pages.dev`);
 - final Cloudflare production: `50993b20-77fe-441f-953b-32c1d131f899`;
 - production artifact: `bluevelvet-phase0-0e85562-cachefix-v5.zip`, SHA-256 `0ADE2C1819D8B6790643E895420CBC3FB64AB104A8874B4CDEF55949FBE93581`;
-- Supabase function versions: `checkout-order` v1, `mercadopago-webhook` v6, `order-confirmation` v13, retired `create-preference` v23;
-- applied migrations: `20260115000000` history repaired; `20260805030000` and `20260805040000` applied;
+- Supabase function versions: `checkout-order` v2, `mercadopago-webhook` v6, `order-confirmation` v13, retired `create-preference` v24;
+- applied migrations: `20260115000000` history repaired; `20260805030000`, `20260805040000`, and security follow-up `20260805050000` applied;
 - backend negative smoke test: 2026-08-05 03:48 America/Mexico_City — missing auth 401; tampered total 400;
 - frontend smoke test: 2026-08-05 04:16 America/Mexico_City — 390×844, 34 products, PDP, cart, checkout auth gate, no horizontal overflow, no runtime errors;
 - database post-cutover smoke: anonymous product read returns 200; anonymous coupon read returns an empty RLS-filtered result;
 - legacy endpoint smoke: allowed storefront origin returns 410 `CHECKOUT_FLOW_RETIRED`; untrusted origin returns 403;
+- retired endpoint auth smoke: missing/invalid bearer returns 401 before the 410 response;
+- security follow-up: customer role escalation, product-bucket mutation, and visitor analytics reads fail in an isolated policy database; admin storage and analytics access remains available;
+- live schema export confirms the hardened role trigger, fixed signup role, admin-only storage policies, and admin-only visitor analytics policy;
+- profile role audit before/after the hotfix is unchanged at one admin and 27 customers; no privilege escalation was observed during the release window;
 - rollback deployment ID: `68459e41-1f73-4223-930a-f691db2077b2`.
 
 ### Packaging incident and recovery

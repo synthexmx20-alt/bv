@@ -1,5 +1,7 @@
 import {
   corsHeaders,
+  getBearerToken,
+  HttpError,
   isAllowedOrigin,
   jsonResponse,
 } from './http.ts';
@@ -7,6 +9,7 @@ import {
 type RetiredFlowOptions = {
   code: string;
   message: string;
+  authenticate: (token: string) => Promise<boolean>;
 };
 
 export function createRetiredFlowHandler(options: RetiredFlowOptions) {
@@ -28,6 +31,33 @@ export function createRetiredFlowHandler(options: RetiredFlowOptions) {
       return jsonResponse(origin, 403, {
         error: 'El origen de la solicitud no está autorizado.',
         code: 'ORIGIN_NOT_ALLOWED',
+      });
+    }
+
+    let token: string;
+    try {
+      token = getBearerToken(request);
+    } catch (error) {
+      if (error instanceof HttpError) {
+        return jsonResponse(origin, error.status, { error: error.message, code: error.code });
+      }
+      return jsonResponse(origin, 401, {
+        error: 'Falta una autorización válida.',
+        code: 'AUTH_REQUIRED',
+      });
+    }
+
+    try {
+      if (!(await options.authenticate(token))) {
+        return jsonResponse(origin, 401, {
+          error: 'Tu sesión expiró. Inicia sesión de nuevo.',
+          code: 'AUTH_INVALID',
+        });
+      }
+    } catch {
+      return jsonResponse(origin, 503, {
+        error: 'El servicio de autenticación no está disponible.',
+        code: 'AUTH_UNAVAILABLE',
       });
     }
 

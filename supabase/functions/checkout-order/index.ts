@@ -13,6 +13,7 @@ import {
   CheckoutRequestError,
   parseCheckoutRequest,
 } from '../_shared/checkout-request.ts';
+import { applyExactCouponCodeFilter } from '../_shared/coupon-query.ts';
 import {
   corsHeaders,
   getBearerToken,
@@ -142,10 +143,12 @@ Deno.serve(async request => {
       .eq('zip_code', checkout.shipping.zipCode)
       .limit(100);
     const couponQuery = checkout.couponCode
-      ? admin
-        .from('coupons')
-        .select('code,discount_type,value,expiration_date,usage_limit,usage_count,active')
-        .ilike('code', checkout.couponCode)
+      ? applyExactCouponCodeFilter(
+        admin
+          .from('coupons')
+          .select('code,discount_type,value,expiration_date,usage_limit,usage_count,active'),
+        checkout.couponCode,
+      )
         .limit(2)
       : Promise.resolve({ data: [] as CheckoutCoupon[], error: null });
 

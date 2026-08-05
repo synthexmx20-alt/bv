@@ -7,18 +7,39 @@ describe('retired Edge Function flow', () => {
   const handler = createRetiredFlowHandler({
     code: 'CHECKOUT_FLOW_RETIRED',
     message: 'Este flujo de pago fue reemplazado. Actualiza la página e intenta de nuevo.',
+    authenticate: async token => token === 'valid-user-token',
   });
 
   it('returns 410 for the retired checkout endpoint', async () => {
     const response = await handler(new Request(endpoint, {
       method: 'POST',
-      headers: { Origin: 'https://bluevelvetcuu.com' },
+      headers: {
+        Origin: 'https://bluevelvetcuu.com',
+        Authorization: 'Bearer valid-user-token',
+      },
     }));
 
     expect(response.status).toBe(410);
     await expect(response.json()).resolves.toMatchObject({
       code: 'CHECKOUT_FLOW_RETIRED',
     });
+  });
+
+  it('requires an authenticated user before returning retirement details', async () => {
+    const missing = await handler(new Request(endpoint, {
+      method: 'POST',
+      headers: { Origin: 'https://bluevelvetcuu.com' },
+    }));
+    const invalid = await handler(new Request(endpoint, {
+      method: 'POST',
+      headers: {
+        Origin: 'https://bluevelvetcuu.com',
+        Authorization: 'Bearer invalid-token',
+      },
+    }));
+
+    expect(missing.status).toBe(401);
+    expect(invalid.status).toBe(401);
   });
 
   it('keeps CORS preflight available for allowed storefront origins', async () => {
