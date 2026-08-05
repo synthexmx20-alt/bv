@@ -41,6 +41,8 @@ export default tseslint.config(
       'lib/purchaseTracking.ts',
       'supabase/functions/_shared/**/*.ts',
       'supabase/functions/checkout-order/**/*.ts',
+      'supabase/functions/mercadopago-webhook/**/*.ts',
+      'supabase/functions/order-confirmation/**/*.ts',
       'tests/**/*.ts',
     ],
   })),
@@ -48,6 +50,8 @@ export default tseslint.config(
     files: [
       'supabase/functions/_shared/**/*.ts',
       'supabase/functions/checkout-order/**/*.ts',
+      'supabase/functions/mercadopago-webhook/**/*.ts',
+      'supabase/functions/order-confirmation/**/*.ts',
     ],
     languageOptions: {
       globals: {
