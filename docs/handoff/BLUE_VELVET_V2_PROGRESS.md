@@ -18,14 +18,23 @@ Estados permitidos: `PENDIENTE`, `EN CURSO`, `BLOQUEADA`, `EN REVISIÓN`, `COMPL
 
 ## Baseline reproducible
 
-| Campo | Valor conocido |
+Baseline verificada por `BV2-00` el 2026-08-05 desde el clon de GitHub. Entorno: Node `v24.14.1`, npm `11.11.0`, Linux x64 (sandbox).
+
+| Campo | Valor verificado |
 |---|---|
-| Repositorio local al crear el paquete | `C:\Users\aleja\Downloads\blue-velvet-florería` |
+| Repositorio Git | `github.com/synthexmx20-alt/bv` (clon limpio; el path Windows original quedó solo como referencia histórica) |
 | Rama | `main` |
-| Commit anterior al paquete | `226fb55` — `docs: design Blue Velvet V2 agent handoff` |
-| Stack | React 19, TypeScript 5.8, Vite 6, Vitest, Supabase, Mercado Pago, Cloudflare Pages |
-| Comando integral | `npm run check` |
-| Última evidencia previa | 63 tests; lint, typecheck, tests y build aprobados después de Fase 0 |
+| Commit de partida | `927c408` — `docs: add Blue Velvet V2 agent prompt pack` |
+| Working tree al iniciar | limpio; `package-lock.json` intacto tras `npm ci` |
+| Stack | React 19.2.3, TypeScript 5.8.2, Vite 6.4.3, Vitest 4.1.10, ESLint 10, Supabase, Mercado Pago, Cloudflare Pages |
+| Comando integral | `npm run check` (lint && typecheck && test && build) |
+| Instalación | `npm ci` — aprobada, sin cambios al lockfile |
+| `npm run lint` | APROBADO (eslint . --max-warnings=0, exit 0) |
+| `npm run typecheck` | APROBADO (tsc -p tsconfig.app.json --noEmit, exit 0) |
+| `npm test` | APROBADO — 63/63 tests en 8 archivos (vitest run, exit 0) |
+| `npm run build` | APROBADO — 143 módulos, bundle 685.24 kB min / 184.55 kB gzip (exit 0, warnings conocidos abajo) |
+| `npm audit` | 2 vulnerabilidades HIGH — GHSA-qwww-vcr4-c8h2 en `react-router` 7.12.0–8.2.0 (instalado 7.18.2 vía `react-router-dom`); aplica solo a modo RSC/server actions, esta SPA es client-only. `npm audit fix` requiere upgrade mayor → diferido según decisión del runbook Fase 0, no forzado. |
+| Secretos versionados | NINGUNO detectado: sin `.env*`, tokens, JWT, dumps ni respaldos en Git; Supabase se configura vía `VITE_SUPABASE_URL`/`VITE_SUPABASE_ANON_KEY` (variables de entorno) |
 | Producción | `https://bluevelvetcuu.com` |
 | Cloudflare Pages | proyecto `bluevelvet`, rama productiva observada `main` |
 | Supabase principal | ref pública operativa registrada en el runbook; no copiar secretos aquí |
@@ -33,7 +42,15 @@ Estados permitidos: `PENDIENTE`, `EN CURSO`, `BLOQUEADA`, `EN REVISIÓN`, `COMPL
 | Functions conocidas | `checkout-order` v2, `mercadopago-webhook` v6, `order-confirmation` v13, `create-preference` retirada v24 |
 | Deployment frontend conocido | `50993b20-77fe-441f-953b-32c1d131f899` |
 
-El agente de `BV2-00` debe sustituir o complementar esta evidencia con resultados obtenidos desde el clon de GitHub que se usará para continuar.
+Problemas previos conocidos (preexistentes, no regresiones — documentados sin corregir por estar fuera del alcance de `BV2-00`):
+
+- Build advierte `/index.css doesn't exist at build time` (referencia quedará 404 en runtime) — ya citado en auditoría §10.
+- Bundle único de 685 kB supera el límite de 500 kB de Vite; sin code splitting — auditoría §10, lo resuelve `BV2-05`.
+- Warning de importación mixta estática/dinámica de `lib/supabase.ts` durante el build.
+- `npm audit`: advisory de React Router diferido (ver tabla; coincide con la decisión documentada en el runbook de Fase 0).
+- CLABE bancaria y beneficiario hardcodeados en `pages/OrderConfirmation.tsx` y en los `prompt_melissa_*.txt` versionados — ya citado en auditoría §9; dato operativo del negocio, no credencial; su administración queda para prompts posteriores.
+- `.gitignore` cubre `*.local` (captura `.env.local`) pero no patrones `.env` genéricos; ningún `.env` está versionado hoy. Observación registrada para futuros prompts, sin cambios en esta tarea.
+- Los 23 errores de `tsc` reportados por la auditoría pre-Fase 0 ya no existen: `npm run typecheck` pasa limpio tras Fase 0.
 
 ## Invariantes de seguridad
 
@@ -52,7 +69,7 @@ Marcar una tarea como completa implica comprobar que conserva:
 
 | ID | Resultado | Depende de | Estado | Rama / PR | Commit | Pruebas / evidencia | Deploy / notas |
 |---|---|---|---|---|---|---|---|
-| BV2-00 | Baseline reproducible | — | PENDIENTE | — | — | — | LOCAL |
+| BV2-00 | Baseline reproducible | — | COMPLETA | `main` | `927c408` (partida) | npm ci, lint, typecheck, 63/63 tests y build aprobados con Node 24.14.1/npm 11.11.0; audit: 2 high (react-router RSC, diferido); sin secretos en Git | LOCAL |
 | BV2-01 | CI y staging | BV2-00 | PENDIENTE | — | — | — | STAGING |
 | BV2-02 | Design tokens | BV2-00 | PENDIENTE | — | — | — | LOCAL |
 | BV2-03 | CSS/fonts/icons locales | BV2-02 | PENDIENTE | — | — | — | LOCAL |
