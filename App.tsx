@@ -13,6 +13,7 @@ import { useVisitorTracker } from './hooks/useVisitorTracker';
 
 import { ErrorBoundary } from './components/routing/ErrorBoundary';
 import { RouteFallback } from './components/routing/RouteFallback';
+import type { Tables } from './src/types/database.generated';
 import {
   CatalogPage,
   HomePage,
@@ -63,9 +64,10 @@ const App = () => {
             try {
                 const { data } = await supabase.from('site_settings').select('key, value');
                 if (data) {
-                    const title = data.find(s => s.key === 'site_title')?.value;
-                    const desc = data.find(s => s.key === 'site_description')?.value;
-                    const maintenance = data.find(s => s.key === 'maintenance_mode')?.value === 'true';
+                    const rows = data as Pick<Tables<'site_settings'>, 'key' | 'value'>[];
+                    const title = rows.find(s => s.key === 'site_title')?.value;
+                    const desc = rows.find(s => s.key === 'site_description')?.value;
+                    const maintenance = rows.find(s => s.key === 'maintenance_mode')?.value === 'true';
 
                     setMaintenanceMode(maintenance);
 
