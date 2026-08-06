@@ -5,6 +5,7 @@ import { CheckoutContext } from '../../context/CheckoutContext';
 import { useAuth } from '../../context/AuthContext';
 import { createSecureCheckout, toCheckoutRequest } from '../../lib/checkoutApi';
 
+import { Icon } from '../../components/Icon';
 const CheckoutPayment = () => {
     const { checkoutData, updateCheckoutData, getEffectivePrice, clearCart, ensureCheckoutAttemptId } = useContext(CheckoutContext);
     const { user } = useAuth();
@@ -102,9 +103,9 @@ const CheckoutPayment = () => {
                     <div className="flex-1 flex flex-col gap-6">
                         <nav className="flex flex-wrap gap-2 items-center text-sm md:text-base">
                             <Link className="text-text-secondary font-medium hover:text-white transition-colors" to="/checkout/shipping">Envío</Link>
-                            <span className="text-text-secondary material-symbols-outlined !text-sm">chevron_right</span>
+                            <Icon name="chevron_right" size={14} className="text-text-secondary" />
                             <Link className="text-text-secondary font-medium hover:text-white transition-colors" to="/checkout/message">Detalles</Link>
-                            <span className="text-text-secondary material-symbols-outlined !text-sm">chevron_right</span>
+                            <Icon name="chevron_right" size={14} className="text-text-secondary" />
                             <span className="text-primary font-bold">Pago</span>
                         </nav>
                         <div className="flex flex-col gap-2">
@@ -125,7 +126,7 @@ const CheckoutPayment = () => {
                                     <div className={`flex flex-col gap-4 rounded-xl border bg-surface-dark p-5 transition-all ${checkoutData.paymentMethod === 'card' ? 'border-primary shadow-lg shadow-primary/10' : 'border-border-dark'}`}>
                                         <div className="flex items-center gap-4">
                                             <div className={`flex h-10 w-10 items-center justify-center rounded-full text-white transition-colors ${checkoutData.paymentMethod === 'card' ? 'bg-primary' : 'bg-border-dark'}`}>
-                                                <span className="material-symbols-outlined">credit_card</span>
+                                                <Icon name="credit_card" size={24} />
                                             </div>
                                             <div className="flex grow flex-col"><p className="text-white text-base font-bold">Tarjeta de Crédito / Débito</p></div>
                                             <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${checkoutData.paymentMethod === 'card' ? 'border-primary' : 'border-text-secondary'}`}>
@@ -147,7 +148,7 @@ const CheckoutPayment = () => {
                                     />
                                     <div className={`flex items-center gap-4 rounded-xl border bg-surface-dark p-5 transition-all ${checkoutData.paymentMethod === 'spei' ? 'border-primary shadow-lg shadow-primary/10' : 'border-border-dark'}`}>
                                         <div className={`flex h-10 w-10 items-center justify-center rounded-full text-white transition-colors ${checkoutData.paymentMethod === 'spei' ? 'bg-primary' : 'bg-border-dark'}`}>
-                                            <span className="material-symbols-outlined">account_balance</span>
+                                            <Icon name="account_balance" size={24} />
                                         </div>
                                         <div className="flex grow flex-col"><p className="text-white text-base font-bold">SPEI</p></div>
                                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${checkoutData.paymentMethod === 'spei' ? 'border-primary' : 'border-text-secondary'}`}>
@@ -252,7 +253,7 @@ const CheckoutPayment = () => {
                                 className="group w-full rounded-lg bg-primary py-4 text-white font-bold text-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                             >
                                 <span>{loading ? 'Procesando...' : 'Finalizar Compra'}</span>
-                                {!loading && <span className="material-symbols-outlined">arrow_forward</span>}
+                                {!loading && <Icon name="arrow_forward" size={24} />}
                             </button>
                         </div>
                     </div>

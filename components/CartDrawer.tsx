@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckoutContext } from '../context/CheckoutContext';
 
+import { Icon } from './Icon';
 interface CartDrawerProps {
     isOpen: boolean;
     onClose: () => void;
@@ -52,7 +53,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                         onClick={onClose}
                         className="p-2 hover:bg-gray-100 dark:hover:bg-[#282b39] rounded-full transition-colors text-gray-500 dark:text-gray-400"
                     >
-                        <span className="material-symbols-outlined">close</span>
+                        <Icon name="close" size={24} />
                     </button>
                 </div>
 
@@ -60,7 +61,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
                     {items.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-full text-center gap-4 text-gray-500 dark:text-gray-400">
-                            <span className="material-symbols-outlined text-6xl opacity-20">shopping_cart_off</span>
+                            <Icon name="shopping_cart_off" size={60} className="opacity-20" />
                             <p className="text-lg font-medium">Tu carrito está vacío</p>
                             <button
                                 onClick={onClose}
@@ -97,14 +98,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                                                 onClick={() => updateCheckoutData && updateCartItemQuantity && updateCartItemQuantity(idx, item.quantity - 1)}
                                                 className="size-6 flex items-center justify-center rounded bg-white dark:bg-slate-700 shadow-sm hover:text-primary transition-colors text-gray-600 dark:text-gray-300"
                                             >
-                                                <span className="material-symbols-outlined text-[16px]">remove</span>
+                                                <Icon name="remove" size={16} />
                                             </button>
                                             <span className="text-sm font-bold text-gray-900 dark:text-white w-4 text-center">{item.quantity}</span>
                                             <button
                                                 onClick={() => updateCheckoutData && updateCartItemQuantity && updateCartItemQuantity(idx, item.quantity + 1)}
                                                 className="size-6 flex items-center justify-center rounded bg-white dark:bg-slate-700 shadow-sm hover:text-primary transition-colors text-gray-600 dark:text-gray-300"
                                             >
-                                                <span className="material-symbols-outlined text-[16px]">add</span>
+                                                <Icon name="add" size={16} />
                                             </button>
                                         </div>
                                         <span className="font-bold text-primary">${((item.size.price + (item.selectedAddons?.reduce((sum: number, a: any) => sum + a.price, 0) || 0)) * item.quantity).toLocaleString()}</span>
@@ -114,7 +115,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                                     onClick={() => updateCheckoutData && updateCartItemQuantity && updateCartItemQuantity(idx, 0)}
                                     className="p-1 hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-400 hover:text-red-500 rounded transition-colors self-start"
                                 >
-                                    <span className="material-symbols-outlined text-[18px]">delete</span>
+                                    <Icon name="delete" size={18} />
                                 </button>
                             </div>
                         ))
@@ -130,7 +131,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                                     onClick={clearCart}
                                     className="text-sm text-red-500 hover:text-red-600 font-medium flex items-center gap-1 hover:underline"
                                 >
-                                    <span className="material-symbols-outlined text-[16px]">delete_sweep</span>
+                                    <Icon name="delete_sweep" size={16} />
                                     Vaciar Carrito
                                 </button>
                                 <div className="flex items-center gap-2">
@@ -144,7 +145,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                                     className="w-full py-4 bg-primary hover:bg-primary-600 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
                                 >
                                     <span>Proceder al Pago</span>
-                                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                                    <Icon name="arrow_forward" size={14} />
                                 </button>
                                 <button
                                     onClick={onClose}

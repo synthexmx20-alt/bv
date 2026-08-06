@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
 
+import { Icon } from '../../components/Icon';
 const ProfilePage = () => {
     const { user } = useAuth();
     const [loading, setLoading] = useState(false);
@@ -86,7 +87,7 @@ const ProfilePage = () => {
         <div>
             <div className="flex items-center gap-4 mb-6 pb-6 border-b border-border-light dark:border-border-dark">
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                    <span className="material-symbols-outlined text-3xl">person</span>
+                    <Icon name="person" size={30} />
                 </div>
                 <div>
                     <h1 className="text-2xl font-bold">Mi Perfil</h1>

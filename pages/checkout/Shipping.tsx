@@ -5,6 +5,7 @@ import { CheckoutContext } from '../../context/CheckoutContext';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
 
+import { Icon } from '../../components/Icon';
 const CheckoutShipping = () => {
     const navigate = useNavigate();
     const { checkoutData, updateCheckoutData, getEffectivePrice } = useContext(CheckoutContext);
@@ -202,7 +203,7 @@ const CheckoutShipping = () => {
                             <div className="flex flex-col gap-6">
                                 <div className="flex items-center justify-between border-b border-[#282b39] pb-4">
                                     <div className="flex items-center gap-3">
-                                        <span className="material-symbols-outlined text-primary text-2xl">person_pin_circle</span>
+                                        <Icon name="person_pin_circle" size={24} className="text-primary" />
                                         <h2 className="text-2xl font-bold text-white">Información de Envío</h2>
                                     </div>
                                     {user && savedAddresses.length > 0 && (
@@ -211,7 +212,7 @@ const CheckoutShipping = () => {
                                             onClick={() => setShowAddressBook(!showAddressBook)}
                                             className="text-primary text-sm font-bold hover:underline flex items-center gap-1"
                                         >
-                                            <span className="material-symbols-outlined text-[18px]">bookmarks</span>
+                                            <Icon name="bookmarks" size={18} />
                                             Mis Direcciones
                                         </button>
                                     )}
@@ -220,7 +221,7 @@ const CheckoutShipping = () => {
                                 {!user ? (
                                     <div className="flex flex-col items-center justify-center py-12 px-4 bg-surface-dark rounded-xl border border-[#282b39] text-center">
                                         <div className="size-16 rounded-full bg-[#282b39] flex items-center justify-center text-primary mb-6">
-                                            <span className="material-symbols-outlined text-4xl">lock</span>
+                                            <Icon name="lock" size={36} />
                                         </div>
                                         <h3 className="text-xl font-bold text-white mb-2">Inicia sesión para continuar</h3>
                                         <p className="text-[#9da1b9] max-w-md mb-8">
@@ -255,7 +256,7 @@ const CheckoutShipping = () => {
                                                             className="text-left p-3 rounded-lg border border-[#282b39] bg-[#1c202a] hover:border-primary hover:shadow-md transition-all group"
                                                         >
                                                             <div className="font-bold text-white flex items-center gap-2 group-hover:text-primary transition-colors">
-                                                                <span className="material-symbols-outlined text-[16px]">place</span>
+                                                                <Icon name="place" size={16} />
                                                                 {addr.name}
                                                             </div>
                                                             <div className="text-sm text-slate-400 mt-1">
@@ -337,7 +338,7 @@ const CheckoutShipping = () => {
                                                                 </option>
                                                             ))}
                                                         </select>
-                                                        <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">expand_more</span>
+                                                        <Icon name="expand_more" size={24} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                                                     </div>
                                                 ) : (
                                                     <input
@@ -384,7 +385,7 @@ const CheckoutShipping = () => {
 
                                         <div className="flex flex-col gap-4 mt-8 pt-6 border-t border-[#282b39]">
                                             <div className="flex items-center gap-3">
-                                                <span className="material-symbols-outlined text-primary text-2xl">calendar_clock</span>
+                                                <Icon name="calendar_clock" size={24} className="text-primary" />
                                                 <h2 className="text-xl font-bold text-white">Fecha y Hora de Entrega</h2>
                                             </div>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -497,7 +498,7 @@ const CheckoutShipping = () => {
                                                                 return slots;
                                                             })()}
                                                         </select>
-                                                        <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">expand_more</span>
+                                                        <Icon name="expand_more" size={24} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -505,10 +506,10 @@ const CheckoutShipping = () => {
 
                                         <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-[#282b39]">
                                             <Link to="/product/1" className="text-[#9da1b9] hover:text-white text-sm font-bold flex items-center gap-2 transition-colors">
-                                                <span className="material-symbols-outlined text-lg">arrow_back</span>Volver
+                                                <Icon name="arrow_back" size={18} />Volver
                                             </Link>
                                             <button onClick={handleNext} className="w-full md:w-auto bg-primary hover:bg-blue-700 text-white font-bold h-12 px-8 rounded-lg transition-colors flex items-center justify-center gap-2">
-                                                Continuar a Mensaje <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                                                Continuar a Mensaje <Icon name="arrow_forward" size={18} />
                                             </button>
                                         </div>
                                     </>

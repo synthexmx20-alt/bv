@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import CheckoutHeader from '../../components/CheckoutHeader';
 import { CheckoutContext } from '../../context/CheckoutContext';
 
+import { Icon } from '../../components/Icon';
 const CheckoutMessage = () => {
     const navigate = useNavigate();
     const { checkoutData, updateCheckoutData } = useContext(CheckoutContext);
@@ -40,7 +41,7 @@ const CheckoutMessage = () => {
                         </div>
                         <section className="flex flex-col gap-6 p-6 rounded-xl border border-border-dark bg-surface-dark">
                             <div className="flex items-center gap-3 border-b border-border-dark pb-4">
-                                <span className="material-symbols-outlined text-primary">edit_note</span>
+                                <Icon name="edit_note" size={24} className="text-primary" />
                                 <h2 className="text-white text-lg font-bold">Tarjeta y Dedicatoria</h2>
                             </div>
                             <div className="flex flex-col md:flex-row gap-4">
@@ -55,7 +56,7 @@ const CheckoutMessage = () => {
                                                     checked={checkoutData.message.isAnonymous || false}
                                                     onChange={(e) => updateCheckoutData('message', { ...checkoutData.message, isAnonymous: e.target.checked })}
                                                 />
-                                                <span className="material-symbols-outlined text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[14px] opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
+                                                <Icon name="check" size={14} className="text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100 pointer-events-none" />
                                             </div>
                                             <span className="text-gray-400 text-xs font-medium select-none">Regalo Anónimo</span>
                                         </label>
@@ -91,7 +92,7 @@ const CheckoutMessage = () => {
                                                 checked={checkoutData.message.withoutNote || false}
                                                 onChange={(e) => updateCheckoutData('message', { ...checkoutData.message, withoutNote: e.target.checked })}
                                             />
-                                            <span className="material-symbols-outlined text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[14px] opacity-0 peer-checked:opacity-100 pointer-events-none">check</span>
+                                            <Icon name="check" size={14} className="text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100 pointer-events-none" />
                                         </div>
                                         <span className="text-gray-400 text-xs font-medium select-none">Sin Mensaje</span>
                                     </label>

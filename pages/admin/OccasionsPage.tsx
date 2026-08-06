@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Occasion } from '../../types';
 
+import { Icon } from '../../components/Icon';
 const AdminOccasionsPage = () => {
     const [occasions, setOccasions] = useState<Occasion[]>([]);
     const [loading, setLoading] = useState(true);
@@ -84,7 +85,7 @@ const AdminOccasionsPage = () => {
                                         className="text-slate-400 hover:text-red-500 transition-colors p-1"
                                         title="Eliminar"
                                     >
-                                        <span className="material-symbols-outlined text-[20px]">delete</span>
+                                        <Icon name="delete" size={20} />
                                     </button>
                                 </li>
                             ))}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 
+import { Icon } from '../../components/Icon';
 interface ShippingZone {
     id: string;
     zip_code: string;
@@ -104,7 +105,7 @@ const AdminShippingRulesPage = () => {
                     onClick={() => handleOpenModal()}
                     className="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2"
                 >
-                    <span className="material-symbols-outlined">add</span>
+                    <Icon name="add" size={24} />
                     Nueva Zona
                 </button>
             </div>
@@ -144,10 +145,10 @@ const AdminShippingRulesPage = () => {
                                     </td>
                                     <td className="px-6 py-4 flex gap-2">
                                         <button onClick={() => handleOpenModal(zone)} className="text-blue-500 hover:text-blue-700">
-                                            <span className="material-symbols-outlined text-[20px]">edit</span>
+                                            <Icon name="edit" size={20} />
                                         </button>
                                         <button onClick={() => handleDelete(zone.id)} className="text-red-500 hover:text-red-700">
-                                            <span className="material-symbols-outlined text-[20px]">delete</span>
+                                            <Icon name="delete" size={20} />
                                         </button>
                                     </td>
                                 </tr>

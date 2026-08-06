@@ -2,6 +2,8 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
+import { Icon } from '../../components/Icon';
+import type { IconName } from '../../components/Icon';
 const AdminLayout = () => {
     const { user, isAdmin, loading, signOut } = useAuth();
 
@@ -14,7 +16,7 @@ const AdminLayout = () => {
         return <Navigate to="/admin/login" replace />;
     }
 
-    const navLinks = [
+    const navLinks: { path: string; label: string; icon: IconName }[] = [
         { path: '/admin/dashboard', label: 'Dashboard', icon: 'dashboard' }, // New Dashboard Link
         { path: '/admin/orders', label: 'Pedidos', icon: 'orders' },
         { path: '/admin/users', label: 'Usuarios', icon: 'group' },
@@ -47,7 +49,7 @@ const AdminLayout = () => {
                             href={`#${link.path}`}
                             className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
                         >
-                            <span className="material-symbols-outlined text-[20px]">{link.icon}</span>
+                            <Icon name={link.icon} size={20} />
                             <span className="font-medium text-sm">{link.label}</span>
                         </a>
                     ))}
@@ -58,7 +60,7 @@ const AdminLayout = () => {
                         onClick={() => signOut()}
                         className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-red-400 hover:bg-slate-800 transition-colors"
                     >
-                        <span className="material-symbols-outlined text-[20px]">logout</span>
+                        <Icon name="logout" size={20} />
                         <span className="font-medium text-sm">Cerrar Sesión</span>
                     </button>
                     <div className="px-4 py-2 mt-2">

@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase';
 import CheckoutHeader from '../components/CheckoutHeader';
 import { buildMetaPurchasePayload, isPurchaseEligible, purchaseStorageKey } from '../lib/purchaseTracking';
 
+import { Icon } from '../components/Icon';
 interface OrderItem {
     id: string;
     product_id: string;
@@ -148,14 +149,14 @@ const OrderConfirmation = () => {
                         {isHistoryView ? (
                             <>
                                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
-                                    <span className="material-symbols-outlined text-4xl">receipt_long</span>
+                                    <Icon name="receipt_long" size={36} />
                                 </div>
                                 <h1 className="text-3xl font-bold text-white mb-2">Detalles del Pedido</h1>
                             </>
                         ) : (
                             <>
                                 <div className={`w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 ${isPendingTransfer ? 'text-amber-600' : 'text-primary'}`}>
-                                    <span className="material-symbols-outlined text-4xl">{isPendingTransfer ? 'pending_actions' : 'check_circle'}</span>
+                                    <Icon name={isPendingTransfer ? 'pending_actions' : 'check_circle'} size={36} />
                                 </div>
                                 <h1 className="text-3xl font-bold text-white mb-2">
                                     {isPendingTransfer ? '¡Pedido Recibido!' : `¡Gracias por tu compra, ${shipping.fullName || 'Cliente'}!`}
@@ -174,7 +175,7 @@ const OrderConfirmation = () => {
                         {isPendingTransfer && (
                             <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-xl p-6 mb-8 text-center animate-fadeIn">
                                 <h3 className="text-xl font-bold text-amber-800 dark:text-amber-400 mb-4 flex items-center justify-center gap-2">
-                                    <span className="material-symbols-outlined">account_balance</span>
+                                    <Icon name="account_balance" size={24} />
                                     Datos Bancarios para Transferencia
                                 </h3>
                                 <div className="bg-white dark:bg-surface-dark p-4 rounded-lg border border-amber-100 dark:border-amber-800/50 shadow-sm max-w-md mx-auto mb-6">
@@ -208,7 +209,7 @@ const OrderConfirmation = () => {
                                         rel="noopener noreferrer"
                                         className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg flex items-center gap-2 transition-transform hover:scale-105 shadow-md shadow-green-500/20"
                                     >
-                                        <span className="material-symbols-outlined">chat</span>
+                                        <Icon name="chat" size={24} />
                                         Enviar Comprobante por WhatsApp
                                     </a>
                                 </div>
@@ -254,7 +255,7 @@ const OrderConfirmation = () => {
                                                     <ul className="list-none text-sm space-y-1">
                                                         {item.addons.map((addon: any, index: number) => (
                                                             <li key={index} className="flex items-center gap-1 text-slate-600 dark:text-slate-300">
-                                                                <span className="material-symbols-outlined !text-[14px]">local_florist</span>
+                                                                <Icon name="local_florist" size={14} />
                                                                 {addon.name} (+${addon.price})
                                                             </li>
                                                         ))}
@@ -291,7 +292,7 @@ const OrderConfirmation = () => {
 
                         <div className="bg-blue-50 dark:bg-slate-800 p-6 rounded-xl mb-8">
                             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                                <span className="material-symbols-outlined">local_shipping</span>
+                                <Icon name="local_shipping" size={24} />
                                 Dirección de Envío
                             </h3>
 

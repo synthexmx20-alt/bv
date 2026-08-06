@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { ProductAddon } from '../../types';
 
+import { Icon } from '../../components/Icon';
 const AdminAddonsPage = () => {
     const [addons, setAddons] = useState<ProductAddon[]>([]);
     const [loading, setLoading] = useState(true);
@@ -151,7 +152,7 @@ const AdminAddonsPage = () => {
                         className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium flex items-center gap-2 h-[42px]"
                     >
                         {isSubmitting ? '...' : 'Agregar'}
-                        {!isSubmitting && <span className="material-symbols-outlined text-sm">add</span>}
+                        {!isSubmitting && <Icon name="add" size={14} />}
                     </button>
                 </form>
             </div>
@@ -202,7 +203,7 @@ const AdminAddonsPage = () => {
                                                 className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded text-slate-400 hover:text-red-600 transition-colors"
                                                 title="Eliminar"
                                             >
-                                                <span className="material-symbols-outlined text-[20px]">delete</span>
+                                                <Icon name="delete" size={20} />
                                             </button>
                                         </td>
                                     </tr>

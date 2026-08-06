@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 
+import { Icon } from '../../components/Icon';
 interface Coupon {
     id: string;
     code: string;
@@ -97,7 +98,7 @@ const AdminCouponsPage = () => {
                     onClick={() => setShowModal(true)}
                     className="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors font-medium"
                 >
-                    <span className="material-symbols-outlined">add</span>
+                    <Icon name="add" size={24} />
                     Crear Cupón
                 </button>
             </div>
@@ -143,7 +144,7 @@ const AdminCouponsPage = () => {
                                                 onClick={() => handleDelete(coupon.id)}
                                                 className="text-slate-400 hover:text-red-500 transition-colors"
                                             >
-                                                <span className="material-symbols-outlined">delete</span>
+                                                <Icon name="delete" size={24} />
                                             </button>
                                         </td>
                                     </tr>

@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { CheckoutContext } from '../context/CheckoutContext';
 import CartDrawer from './CartDrawer';
 
+import { Icon } from './Icon';
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -69,7 +70,7 @@ const Header = () => {
                     <label className="hidden md:flex flex-col min-w-40 !h-10 max-w-64">
                         <div className="flex w-full flex-1 items-stretch rounded-lg h-full">
                             <div className="text-[#637588] dark:text-[#9da1b9] flex border-none bg-[#f0f2f4] dark:bg-[#282b39] items-center justify-center pl-4 rounded-l-lg border-r-0">
-                                <span className="material-symbols-outlined text-[24px]">search</span>
+                                <Icon name="search" size={24} />
                             </div>
                             <input
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white focus:outline-0 focus:ring-0 border-none bg-[#f0f2f4] dark:bg-[#282b39] focus:border-none h-full placeholder:text-[#637588] dark:placeholder:text-[#9da1b9] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
@@ -85,7 +86,7 @@ const Header = () => {
                             onClick={() => setIsCartOpen(true)}
                             className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#f0f2f4] dark:bg-[#282b39] text-[#111418] dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-[#e5e7eb] dark:hover:bg-[#3e4255] transition-colors relative group"
                         >
-                            <span className="material-symbols-outlined text-[20px]">shopping_cart</span>
+                            <Icon name="shopping_cart" size={20} />
                             {cartItemCount > 0 && (
                                 <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold size-5 flex items-center justify-center rounded-full border-2 border-white dark:border-[#101322]">
                                     {cartItemCount}
@@ -99,7 +100,7 @@ const Header = () => {
                                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                                 className="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#f0f2f4] dark:bg-[#282b39] text-[#111418] dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-[#e5e7eb] dark:hover:bg-[#3e4255] transition-colors"
                             >
-                                <span className="material-symbols-outlined text-[20px]">account_circle</span>
+                                <Icon name="account_circle" size={20} />
                             </button>
 
                             {isUserMenuOpen && (
@@ -115,7 +116,7 @@ const Header = () => {
                                                 className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                                                 onClick={() => setIsUserMenuOpen(false)}
                                             >
-                                                <span className="material-symbols-outlined text-[18px]">person</span>
+                                                <Icon name="person" size={18} />
                                                 Mi Perfil
                                             </Link>
                                             <Link
@@ -123,7 +124,7 @@ const Header = () => {
                                                 className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                                                 onClick={() => setIsUserMenuOpen(false)}
                                             >
-                                                <span className="material-symbols-outlined text-[18px]">location_on</span>
+                                                <Icon name="location_on" size={18} />
                                                 Mis Direcciones
                                             </Link>
                                             <Link
@@ -131,14 +132,14 @@ const Header = () => {
                                                 className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                                                 onClick={() => setIsUserMenuOpen(false)}
                                             >
-                                                <span className="material-symbols-outlined text-[18px]">history</span>
+                                                <Icon name="history" size={18} />
                                                 Mis Pedidos
                                             </Link>
                                             <button
                                                 onClick={handleSignOut}
                                                 className="w-full text-left max-w-full cursor-pointer flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                                             >
-                                                <span className="material-symbols-outlined text-[18px]">logout</span>
+                                                <Icon name="logout" size={18} />
                                                 Cerrar Sesión
                                             </button>
                                         </>
@@ -149,7 +150,7 @@ const Header = () => {
                                                 className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                                                 onClick={() => setIsUserMenuOpen(false)}
                                             >
-                                                <span className="material-symbols-outlined text-[18px]">login</span>
+                                                <Icon name="login" size={18} />
                                                 Iniciar Sesión
                                             </Link>
                                             <Link
@@ -157,7 +158,7 @@ const Header = () => {
                                                 className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                                                 onClick={() => setIsUserMenuOpen(false)}
                                             >
-                                                <span className="material-symbols-outlined text-[18px]">person_add</span>
+                                                <Icon name="person_add" size={18} />
                                                 Registrarse
                                             </Link>
                                         </>
@@ -167,7 +168,7 @@ const Header = () => {
                         </div>
 
                         <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#f0f2f4] dark:bg-[#282b39] text-[#111418] dark:text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5 hover:bg-[#e5e7eb] dark:hover:bg-[#3e4255] transition-colors">
-                            <span className="material-symbols-outlined text-[20px]">menu</span>
+                            <Icon name="menu" size={20} />
                         </button>
                     </div>
                 </div>

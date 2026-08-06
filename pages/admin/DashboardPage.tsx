@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase';
 import { supabaseCRM } from '../../lib/supabase-crm';
 import { Link } from 'react-router-dom';
 
+import { Icon } from '../../components/Icon';
 const AdminDashboardPage = () => {
     const [stats, setStats] = useState({
         totalRevenue: 0,
@@ -125,7 +126,7 @@ const AdminDashboardPage = () => {
                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-2">{formatCurrency(stats.totalRevenue)}</h3>
                         </div>
                         <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400">
-                            <span className="material-symbols-outlined">payments</span>
+                            <Icon name="payments" size={24} />
                         </div>
                     </div>
                 </div>
@@ -137,7 +138,7 @@ const AdminDashboardPage = () => {
                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-2">{stats.totalOrders}</h3>
                         </div>
                         <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
-                            <span className="material-symbols-outlined">shopping_bag</span>
+                            <Icon name="shopping_bag" size={24} />
                         </div>
                     </div>
                 </div>
@@ -149,7 +150,7 @@ const AdminDashboardPage = () => {
                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-2">{stats.totalProducts}</h3>
                         </div>
                         <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400">
-                            <span className="material-symbols-outlined">inventory_2</span>
+                            <Icon name="inventory_2" size={24} />
                         </div>
                     </div>
                 </div>
@@ -161,7 +162,7 @@ const AdminDashboardPage = () => {
                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-2">{stats.totalUsers}</h3>
                         </div>
                         <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg text-orange-600 dark:text-orange-400">
-                            <span className="material-symbols-outlined">group</span>
+                            <Icon name="group" size={24} />
                         </div>
                     </div>
                 </div>

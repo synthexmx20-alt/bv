@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 
 import HeroSlider from '../components/HeroSlider';
 
+import { Icon } from '../components/Icon';
 const HomePage = () => {
     const navigate = useNavigate();
     return (
@@ -19,9 +20,9 @@ const HomePage = () => {
                     <div className="max-w-[960px] mx-auto px-4 text-center">
                         <p className="text-gray-500 dark:text-[#9da1b9] text-sm font-semibold uppercase tracking-widest mb-6">La Elección de los Mejores en Chihuahua</p>
                         <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-                            <div className="h-8 flex items-center gap-2 text-[#111418] dark:text-white font-bold text-xl"><span className="material-symbols-outlined">verified</span><span>LUXE Events</span></div>
-                            <div className="h-8 flex items-center gap-2 text-[#111418] dark:text-white font-bold text-xl"><span className="material-symbols-outlined">diamond</span><span>Elite Weddings</span></div>
-                            <div className="h-8 flex items-center gap-2 text-[#111418] dark:text-white font-bold text-xl"><span className="material-symbols-outlined">apartment</span><span>Distrito 1</span></div>
+                            <div className="h-8 flex items-center gap-2 text-[#111418] dark:text-white font-bold text-xl"><Icon name="verified" size={24} /><span>LUXE Events</span></div>
+                            <div className="h-8 flex items-center gap-2 text-[#111418] dark:text-white font-bold text-xl"><Icon name="diamond" size={24} /><span>Elite Weddings</span></div>
+                            <div className="h-8 flex items-center gap-2 text-[#111418] dark:text-white font-bold text-xl"><Icon name="apartment" size={24} /><span>Distrito 1</span></div>
                         </div>
                     </div>
                 </div>
@@ -34,7 +35,7 @@ const HomePage = () => {
                                 <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAkR_fLUspDK6DSFltRDjQJ9-jzsD-TJBqtIzZSQJX_Oavg2lFSUJWSY3Zi0MuiGtaDbwIkrU71bH8nCvJmerBZLkXWPkE5hkJ4MUB65kN7MaJhLd8xOedb46L_Yp-PaqhU0xhwduXCj9ho2WQ5Q36y2khw8DW6CfZy8dKIrbjs6i0OCWfDrfCHGBn_yp_ZXOl-JMclc1XM4kBmUrDRPL0Zi4Kp8cj5Ea06n1Ll2b8LDYBbEEVL3QtKTRdNhIIkBpVKjCijFjWoJXY")' }}></div>
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
                                     <h3 className="text-white text-2xl font-bold mb-2">Colección Sostenible</h3>
-                                    <span className="text-white text-sm font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform">Comprar Ahora <span className="material-symbols-outlined text-sm">arrow_forward</span></span>
+                                    <span className="text-white text-sm font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform">Comprar Ahora <Icon name="arrow_forward" size={14} /></span>
                                 </div>
                             </div>
                             <div className="lg:col-span-4 flex flex-col gap-4 h-full">

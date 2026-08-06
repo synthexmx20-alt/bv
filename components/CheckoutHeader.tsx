@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+import { Icon } from './Icon';
 const CheckoutHeader = () => {
     const { session, signOut } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -32,7 +33,7 @@ const CheckoutHeader = () => {
             </Link>
             <div className="flex items-center gap-4">
                 <span className="hidden md:flex items-center gap-2 text-[#9da1b9] text-xs font-medium uppercase tracking-wider">
-                    <span className="material-symbols-outlined text-green-500 text-[18px]">lock</span>
+                    <Icon name="lock" size={18} className="text-green-500" />
                     Pago Seguro SSL
                 </span>
 
@@ -54,7 +55,7 @@ const CheckoutHeader = () => {
                                     }}
                                     className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-background-dark transition-colors"
                                 >
-                                    <span className="material-symbols-outlined">logout</span>
+                                    <Icon name="logout" size={24} />
                                     <span className="text-sm font-medium">Cerrar Sesión</span>
                                 </button>
                             </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
+import { Icon } from '../../components/Icon';
 const ConfirmationCallback = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -32,7 +33,7 @@ const ConfirmationCallback = () => {
         <main className="flex min-h-screen flex-col items-center justify-center bg-background p-6 text-center text-text-primary">
             <div className="flex max-w-md flex-col items-center gap-4">
                 {failed ? (
-                    <span className="material-symbols-outlined text-6xl text-red-500">error</span>
+                    <Icon name="error" size={60} className="text-red-500" />
                 ) : (
                     <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-primary" />
                 )}
